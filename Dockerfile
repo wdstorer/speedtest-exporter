@@ -9,5 +9,5 @@ RUN pip install speedtest-cli
 RUN pip install prometheus-client
 
 EXPOSE 9104
-ENTRYPOINT ["/app/run-speedtest.py"]
+ENTRYPOINT ["/usr/bin/python", "-u", "/app/run-speedtest.py"]
 
