@@ -8,10 +8,9 @@ servers = []
 # If you want to test against a specific server
 # servers = [1234]
 
-s = speedtest.Speedtest()
+test_interval = 60 # initiate speed test every 60 seconds
 
-#results_dict = s.results.dict()
-#print results_dict
+s = speedtest.Speedtest()
 
 g_download = Gauge('download_speed', 'Download speed')
 g_upload = Gauge('upload_speed', 'Upload speed')
@@ -24,8 +23,8 @@ def process_request(t):
   results_dict = s.results.dict()
   g_download.set(results_dict["download"])
   g_upload.set(results_dict["upload"])
-  print results_dict["upload"]
-  print results_dict["download"]
+  print("upload: %s" % (results_dict["upload"]))
+  print("download: %s" % (results_dict["download"]))
   time.sleep(t)
   
 if __name__ == '__main__':
@@ -33,4 +32,9 @@ if __name__ == '__main__':
   start_http_server(9104) 
   # Generate some requests.
   while True:
-    process_request(60)
+    try:
+      process_request(test_interval)
+    except TypeError:
+      print("TypeError returned from speedtest server")
+    except socket.timeout:
+      print("socket.timeout returned from speedtest server")
