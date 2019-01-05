@@ -1,4 +1,4 @@
-IMAGE_NAME = registry:5000/speedtest:0.3
+IMAGE_NAME = registry:5000/speedtest:0.4
 
 build-image:
 	docker build -t $(IMAGE_NAME) .
